@@ -51,6 +51,7 @@ def mapPosition(PList):
     作出以ID在坐标系中的二维分布图
     这个可以用来帮助圈定R_eff中的人际关系
     同时也能直观展示人际关系的演化情况
+    同时实现FOF的功能
     '''
 
 def findLover(P0, PList):
