@@ -26,3 +26,9 @@ GroupList = func.FOF(PList)
 print len(GroupList)
 func.mapPosition(PList)
 func.mapGroup(GroupList)
+
+# find lover
+Sum = 0
+for Group in GroupList:
+    for P0 in Group:
+        Lover =

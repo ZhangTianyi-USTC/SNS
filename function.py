@@ -126,8 +126,11 @@ def findLover(P0, FoFList):
     for Person in FoFList:
         if inLove(P0, Person):
             subPList.append(Person)
-    Winner = competitor(P0, subPList)
-    return Winner
+    if len(subPList) == 0:
+        return P0   # nobody loves you
+    else:
+        Winner = competitor(P0, subPList)
+        return Winner
 
 def mapPosition(PList):
     XList = []
