@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 import random
 
 # Parameters List
@@ -138,7 +138,9 @@ def mapPosition(PList):
         XList.append(Pos[0])
         YList.append(Pos[1])
     plt.clf()
-    plt.plot(XList,YList)
+    plt.scatter(XList,YList)
+    plt.xlim(0,Nnet)
+    plt.ylim(0,Nnet)
     plt.show()
 
 def GravityField():
