@@ -56,7 +56,7 @@ def FOF(PList):
             return True
         else:
             return False
-    def number(PList):
+    def idPair(PList):
         Length = len(PList)
         pairIDList = []
         for ind in range(Length-1):
@@ -68,13 +68,41 @@ def FOF(PList):
                 else:
                     continue
         return pairIDList
-    pairIDList = number(PList)
+    pairIDList = idPair(PList)
     pairLen = len(pairIDList)
+    # No. of pairIDs
+    pairNumList = range(pairLen)
+    def match(pairID1, pairID2):
+        for id1 in pairID1:
+            for id2 in pairID2:
+                if id1 == id2:
+                    return True
+        return False
     for ind in range(pairLen-1):
         for subind in range(ind+1,pairLen):
             pairID1 = pairIDList[ind]
             pairID2 = pairIDList[subind]
-
+            if match(pairID1, pairID2):
+                Num1 = pairNumList[ind]
+                Num2 = pairNumList[subind]
+                MinNum = min(Num1,Num2)
+                pairNumList[ind] = MinNum
+                pairNumList[subind] = MinNum
+    # divided into groups
+    GroupNumList = np.unique(pairNumList)
+    pairIDList = np.longlong(pairIDList)
+    GroupList = []
+    for GroupNum in GroupNumList:
+        indexs = np.where(np.longlong(pairNumList) == GroupNum)[0]
+        personIDList = []
+        for pairIDs in pairIDList[indexs]:
+            personIDList += pairIDs.tolist()
+        pIDs = np.unique(personIDList)
+        subPList = []
+        for pID in pIDs:
+            subPList.append(PList[pID])
+        GroupList.append(subPList)
+    return GroupList
 
 def findLover(P0, FoFList):
     def inLove(P1, P2):
