@@ -6,8 +6,8 @@ import numpy as np
 import random
 
 # Parameters List
-Nnet = 100      # Net size
-Pnum = 100      # Number of persons
+Nnet = 500      # Net size
+Pnum = 200      # Number of persons
 R_eff = 6       # "Six-degree relation"
 R_th = 3        # "closest relation"
 K = 0.27        # Movement factor
@@ -137,17 +137,17 @@ def mapPosition(PList):
         Pos = P.Pos
         XList.append(Pos[0])
         YList.append(Pos[1])
-    plt.clf()
-    plt.scatter(XList,YList)
-    plt.xlim(0,Nnet)
-    plt.ylim(0,Nnet)
-    plt.show()
+    fig = plt.figure(figsize=(10,10))
+    ax = fig.add_subplot(111)
+    ax.scatter(XList,YList)
+    ax.set_xlim(0,Nnet)
+    ax.set_ylim(0,Nnet)
+    fig.savefig("Universe.png")
 
 def mapGroup(GroupList):
     fig = plt.figure(figsize=(10,10))
     ax = fig.add_subplot(111)
-    ColorList = ["red","green","blue","yellow","cyan","magnenta","black"]
-    ColorLen = len(ColorList)
+    ColorList = ["red","green","blue","yellow","black"]
     for ind, Group in enumerate(GroupList):
         XList = []
         YList = []
@@ -156,7 +156,9 @@ def mapGroup(GroupList):
             Pos = P.Pos
             XList.append(Pos[0])
             YList.append(Pos[1])
-        ax.scatter(XList,YList,color=ColorList[ind%ColorLen])
+        cind = np.mod(ind,len(ColorList))
+        ax.scatter(XList,YList,color=ColorList[cind])
+        # ax.scatter(XList,YList)
     ax.set_xlim(0,Nnet)
     ax.set_ylim(0,Nnet)
     fig.savefig("group.png")
