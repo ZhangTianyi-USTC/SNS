@@ -143,6 +143,24 @@ def mapPosition(PList):
     plt.ylim(0,Nnet)
     plt.show()
 
+def mapGroup(GroupList):
+    fig = plt.figure(figsize=(10,10))
+    ax = fig.add_subplot(111)
+    ColorList = ["red","green","blue","yellow","cyan","magnenta","black"]
+    ColorLen = len(ColorList)
+    for ind, Group in enumerate(GroupList):
+        XList = []
+        YList = []
+        for P in Group:
+            # ID = P.ID
+            Pos = P.Pos
+            XList.append(Pos[0])
+            YList.append(Pos[1])
+        ax.scatter(XList,YList,color=ColorList[ind%ColorLen])
+    ax.set_xlim(0,Nnet)
+    ax.set_ylim(0,Nnet)
+    fig.savefig("group.png")
+
 def GravityField():
     def Gmove(P1, P2):
         '''

@@ -23,5 +23,4 @@ for ID in range(Pnum):
 
 # FOF
 GroupList = func.FOF(PList)
-
-func.mapPosition(GroupList[0])
+func.mapGroup(GroupList)
