@@ -132,7 +132,7 @@ def findLover(P0, FoFList):
         Winner = competitor(P0, subPList)
         return Winner
 
-def mapPosition(PList):
+def mapPosition(PList,scalar=1.5):
     XList = []
     YList = []
     for P in PList:
@@ -142,12 +142,12 @@ def mapPosition(PList):
         YList.append(Pos[1])
     fig = plt.figure(figsize=(10,10))
     ax = fig.add_subplot(111)
-    ax.scatter(XList,YList)
+    ax.scatter(XList,YList,s=scalar)
     ax.set_xlim(0,Nnet)
     ax.set_ylim(0,Nnet)
     fig.savefig("Universe.png")
 
-def mapGroup(GroupList):
+def mapGroup(GroupList,scalar=1.5):
     fig = plt.figure(figsize=(10,10))
     ax = fig.add_subplot(111)
     ColorList = ["red","green","blue","yellow","black"]
@@ -160,8 +160,7 @@ def mapGroup(GroupList):
             XList.append(Pos[0])
             YList.append(Pos[1])
         cind = np.mod(ind,len(ColorList))
-        ax.scatter(XList,YList,color=ColorList[cind])
-        # ax.scatter(XList,YList)
+        ax.scatter(XList,YList,color=ColorList[cind],s=scalar)
     ax.set_xlim(0,Nnet)
     ax.set_ylim(0,Nnet)
     fig.savefig("group.png")

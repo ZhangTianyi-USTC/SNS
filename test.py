@@ -14,7 +14,9 @@ R_th = func.R_th
 PList = []
 for ID in range(Pnum):
     Sex = random.randint(0,1)
+    Weight = 5  # Const
     person = func.Person(ID,Sex)
+    person.appeal(Weight)
     x = random.randint(0,Nnet-1)
     y = random.randint(0,Nnet-1)
     Pos = [x,y]
@@ -23,7 +25,7 @@ for ID in range(Pnum):
 
 # FOF
 GroupList = func.FOF(PList)
-print len(GroupList)
+print "Num of Groups:", len(GroupList)
 func.mapPosition(PList)
 func.mapGroup(GroupList)
 
@@ -31,4 +33,7 @@ func.mapGroup(GroupList)
 Sum = 0
 for Group in GroupList:
     for P0 in Group:
-        Lover =
+        Lover = func.findLover(P0,Group)
+        if P0 != Lover:
+            Sum += 1
+print "Num of CPs:", Sum/2  # double
