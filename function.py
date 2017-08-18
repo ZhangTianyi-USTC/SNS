@@ -6,7 +6,7 @@ import numpy as np
 import random
 
 # Parameters List
-Nnet = 500      # Net size
+Nnet = 512      # Net size
 Pnum = 200      # Number of persons
 R_eff = 6       # "Six-degree relation"
 R_th = 3        # "closest relation"
@@ -132,7 +132,7 @@ def findLover(P0, FoFList):
         Winner = competitor(P0, subPList)
         return Winner
 
-def mapPosition(PList,scalar=1.5):
+def mapPosition(PList,scalar=8):
     XList = []
     YList = []
     for P in PList:
@@ -147,10 +147,10 @@ def mapPosition(PList,scalar=1.5):
     ax.set_ylim(0,Nnet)
     fig.savefig("Universe.png")
 
-def mapGroup(GroupList,scalar=1.5):
+def mapGroup(GroupList,scalar=10):
     fig = plt.figure(figsize=(10,10))
     ax = fig.add_subplot(111)
-    ColorList = ["red","green","blue","yellow","black"]
+    ColorList = ["red","green","blue","cyan","black"]
     for ind, Group in enumerate(GroupList):
         XList = []
         YList = []
