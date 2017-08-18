@@ -2,6 +2,8 @@
 # encoding: utf-8
 
 import numpy as np
+import matplotlib.pyplot as plt
+import random
 
 # Parameters List
 Nnet = 100      # Net size
@@ -13,23 +15,23 @@ K = 0.27        # Movement factor
 
 # Class and implement
 class Person:
-    LatestID = 0    # record the latest ID
-    def __init__(self,ID):
-        self.ID = ID
-        Person.LatestID += 1
-    def merge(self,Prog_IDs):
-        self.Prog_IDs = Prog_IDs
-    def displace(self,Pos):
+    def __init__(self,ID,Sex):
+        self.ID = ID    # ID > Pnum: Couples
+        self.Sex = Sex  # 1: Male; 2: Female; 0: CP
+    def couple(self,ProgIDs):
         '''
-        type(Pos) = INT (or longlong)
+        type(ProgIDs) = Tuple
+        '''
+        self.ProgIDs = ProgIDs
+    def locate(self,Pos):
+        '''
+        type(Pos) = Int (or longlong)
         '''
         self.Pos = np.longlong(Pos)
-    def gender(self,Sex):
-        '''
-        1: Male; 2: Female; 0: CP
-        '''
-        self.Sex = Sex
     def appeal(self,Weight):
+        '''
+        Apppealing weight: 0~10
+        '''
         self.Weight = Weight
     def condition(self,Status):
         '''
@@ -42,31 +44,74 @@ def distance(P1, P2):
     deltaX, deltaY = P2.Pos - P1.Pos
     r = np.sqrt(deltaX**2 + deltaY**2)
     return r
+def D2(P1, P2):
+    deltaX, deltaY = P2.Pos - P1.Pos
+    r2 = deltaX**2 + deltaY**2
+    return r2
+
+def FOF(PList):
+    def underScope(P1, P2):
+        r2 = D2(P1, P2)
+        if r2 <= R_eff**2:
+            return True
+        else:
+            return False
+    def number(PList):
+        Length = len(PList)
+        pairIDList = []
+        for ind in range(Length-1):
+            for subind in range(ind+1,Length):
+                P1 = PList[ind]
+                P2 = PList[subind]
+                if underScope(P1, P2):
+                    pairIDList.append([ind,subind])
+                else:
+                    continue
+        return pairIDList
+    pairIDList = number(PList)
+    pairLen = len(pairIDList)
+    for ind in range(pairLen-1):
+        for subind in range(ind+1,pairLen):
+            pairID1 = pairIDList[ind]
+            pairID2 = pairIDList[subind]
+
+
+def findLover(P0, FoFList):
+    def inLove(P1, P2):
+        r2 = D2(P1, P2)
+        if r2 == 0: # itself
+            return False
+        if r2 <= R_th**2:
+            return True
+        else:
+            return False
+    def competitor(P0, subPList):
+        Winner = subPList[0]
+        for subPerson in subPList:
+            if Winner.Weight < subPerson.Weight:
+                Winner = subPerson
+            elif Winner.Weight == subPerson.Weight:
+                Choice = random.randint(0,1)
+                Winner = (Winner, subPerson)[Choice]
+        return Winner
+    subPList = []
+    for Person in FoFList:
+        if inLove(P0, Person):
+            subPList.append(Person)
+    Winner = competitor(P0, subPList)
+    return Winner
 
 def mapPosition(PList):
+    XList = []
+    YList = []
     for P in PList:
+        # ID = P.ID
         Pos = P.Pos
-        ID = P.ID
-    '''
-    作出以ID在坐标系中的二维分布图
-    这个可以用来帮助圈定R_eff中的人际关系
-    同时也能直观展示人际关系的演化情况
-    同时实现FOF的功能
-    '''
-
-def findLover(P0, PList):
-    def underScope(P1, P2):
-        r = distance(P1, P2)
-        if r <= R_eff:
-            return True
-        else:
-            return False
-    def inLove(P1, P2):
-        r = distance(P1, P2)
-        if r <= R_th:
-            return True
-        else:
-            return False
+        XList.append(Pos[0])
+        YList.append(Pos[1])
+    plt.clf()
+    plt.plot(XList,YList)
+    plt.show()
 
 def GravityField():
     def Gmove(P1, P2):
